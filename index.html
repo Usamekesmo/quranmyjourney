@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبار التفاعلي للقرآن الكريم - النسخة المطورة مع نظام الجواهر</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- 1. قسم تسجيل الدخول -->
+        <div id="loginSection">
+            <h1>مرحباً بك في الاختبار التفاعلي للقرآن الكريم</h1>
+            <p>ادخل اسمك الثلاثي (20 حرفاً كحد أقصى) لبدء رحلتك في حفظ كتاب الله.</p>
+            <input type="text" id="fullNameInput" placeholder="مثال: عبد الله بن عمر">
+            <p id="nameError" class="error-message hidden">الرجاء إدخال اسم ثلاثي صحيح لا يتجاوز 20 حرفاً.</p>
+            <button id="loginBtn" class="main-btn">دخول / إنشاء حساب</button>
+        </div>
+
+        <!-- 2. لوحة التحكم الرئيسية (Dashboard) -->
+        <div id="dashboardSection" class="hidden">
+            <div class="header-flex">
+                <h2 id="welcomeMessage"></h2>
+                <div class="header-buttons">
+                    <button id="storeBtn" class="secondary-btn">💎 المتجر</button>
+                    <button id="profileBtn" class="secondary-btn">ملفي الشخصي</button>
+                </div>
+            </div>
+            
+            <div class="gamification-stats">
+                <div class="stat-card">
+                    <div class="stat-title">اللقب</div>
+                    <div id="userTitle" class="stat-value"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">النقاط (XP)</div>
+                    <div id="userXP" class="stat-value"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">المستوى</div>
+                    <div id="userLevel" class="stat-value"></div>
+                </div>
+                <div class="stat-card gems-card">
+                    <div class="stat-title">الجواهر</div>
+                    <div id="userGems" class="stat-value gems-value">0 💎</div>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="levelProgress" class="progress-bar"></div>
+            </div>
+            <p id="progressText" class="progress-info"></p>
+            <hr>
+
+            <div id="testSelection">
+                <h3>اختر اختبارك</h3>
+                <p id="stageTitle"></p>
+                <div id="testOptionsContainer"></div> 
+                <div id="scopeSelectionContainer"></div>
+                <button id="startTestBtn" class="main-btn">بدء الاختبار</button>
+            </div>
+            <hr>
+
+            <div id="challengesSection">
+                <h3>تحديات نشطة</h3>
+                <div id="challengesContainer"></div>
+            </div>
+        </div>
+
+        <!-- 3. قسم الملف الشخصي (Profile Section) -->
+        <div id="profileSection" class="hidden">
+            <div class="header-flex">
+                <h2>الملف الشخصي والإنجازات</h2>
+                <button id="backToDashboardFromProfileBtn" class="secondary-btn">العودة للرئيسية</button>
+            </div>
+            <div class="gamification-stats">
+                <div class="stat-card">
+                    <div class="stat-title">اللقب</div>
+                    <div id="profileUserTitle" class="stat-value"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">إجمالي النقاط</div>
+                    <div id="profileUserXP" class="stat-value"></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">المرحلة الحالية</div>
+                    <div id="profileUserStage" class="stat-value"></div>
+                </div>
+                <div class="stat-card gems-card">
+                    <div class="stat-title">إجمالي الجواهر</div>
+                    <div class="stat-value gems-value user-gems">0 💎</div>
+                </div>
+            </div>
+            <hr>
+            <h3>شجرة الحفظ (تقدمك في صفحات القرآن)</h3>
+            <p>كل مربع يمثل صفحة من القرآن. يتم تلوين الصفحات التي أتممت اختبارها بنجاح.</p>
+            <div id="quran-grid-container">
+                <div id="quran-grid"></div>
+            </div>
+            <div class="grid-legend">
+                <span><span class="legend-box not-tested"></span> لم يتم اختبارها</span>
+                <span><span class="legend-box tested"></span> تم اختبارها</span>
+            </div>
+        </div>
+
+        <!-- 4. قسم المتجر (Store Section) -->
+        <div id="storeSection" class="hidden">
+            <div class="header-flex">
+                <h2>💎 متجر المكافآت</h2>
+                <button id="backToDashboardFromStoreBtn" class="secondary-btn">العودة للرئيسية</button>
+            </div>
+            
+            <div class="store-balance">
+                <div class="balance-card">
+                    <span class="balance-label">رصيدك الحالي:</span>
+                    <span class="balance-value user-gems">0 💎</span>
+                </div>
+            </div>
+            
+            <div class="store-info">
+                <p>🎯 احصل على الجواهر من خلال:</p>
+                <ul>
+                    <li>💎 جوهرة واحدة لكل اختبار مثالي (100%)</li>
+                    <li>💎💎 جوهرتان إضافيتان لسلسلة النجاح (3 أيام متتالية)</li>
+                    <li>💎💎💎 مكافآت خاصة لإتمام أجزاء كاملة</li>
+                </ul>
+            </div>
+            
+            <div class="store-categories">
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="all">جميع المنتجات</button>
+                    <button class="category-tab" data-category="questions">أسئلة إضافية</button>
+                    <button class="category-tab" data-category="reciters">قراء جدد</button>
+                    <button class="category-tab" data-category="question_types">أنواع أسئلة</button>
+                    <button class="category-tab" data-category="themes">المظاهر</button>
+                    <button class="category-tab" data-category="boosters">معززات</button>
+                </div>
+            </div>
+            
+            <div id="storeItemsContainer" class="store-items-grid">
+                <!-- سيتم ملء المنتجات هنا بواسطة JavaScript -->
+            </div>
+        </div>
+
+        <!-- 5. قسم الاختبار (Quiz Area) -->
+        <div id="quizArea" class="hidden">
+            <div id="loader">جاري تحضير السؤال...</div>
+            <div id="quizContent" class="hidden">
+                <p id="questionText"></p>
+                <audio id="audioPlayer" controls></audio>
+                <div id="answer-container"></div>
+                <div id="resultMessage" class="hidden"></div>
+                <button id="nextQuestionBtn" class="main-btn hidden">السؤال التالي</button>
+            </div>
+        </div>
+
+        <!-- 6. قسم النتائج (Results) -->
+        <div id="resultsSection" class="hidden">
+            <h2>انتهى الاختبار!</h2>
+            <p id="finalScore"></p>
+            <p id="xpGained" class="xp-gain"></p>
+            <button id="backToDashboardBtn" class="main-btn">العودة إلى لوحة التحكم</button>
+        </div>
+    </div>
+
+    <!-- تحميل ملفات JavaScript بالترتيب الصحيح -->
+    <script src="gamification.js"></script>
+    <script src="challenges.js"></script>
+    <script src="gems_system.js"></script>
+    <script src="new_question_types.js"></script>
+    <script src="main.js"></script>
+    
+    <script>
+        // تهيئة المتجر عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // ربط أحداث تبويبات المتجر
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // إزالة الفئة النشطة من جميع التبويبات
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    // إضافة الفئة النشطة للتبويب المحدد
+                    this.classList.add('active');
+                    // تصفية المنتجات
+                    filterStoreItems(this.dataset.category);
+                });
+            });
+        });
+        
+        // دالة تصفية منتجات المتجر
+        function filterStoreItems(category) {
+            const items = document.querySelectorAll('.store-item');
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // دالة تحديث واجهة المتجر
+        async function updateStoreUI() {
+            const container = document.getElementById('storeItemsContainer');
+            if (!container) return;
+            
+            container.innerHTML = '<p>جاري تحميل المنتجات...</p>';
+            
+            try {
+                await loadStoreItems();
+                await loadUserPurchases();
+                
+                container.innerHTML = '';
+                
+                storeItems.forEach(item => {
+                    const itemElement = createStoreItemElement(item);
+                    container.appendChild(itemElement);
+                });
+                
+                // تطبيق التصفية الحالية
+                const activeTab = document.querySelector('.category-tab.active');
+                if (activeTab) {
+                    filterStoreItems(activeTab.dataset.category);
+                }
+                
+            } catch (error) {
+                container.innerHTML = '<p style="color: red;">حدث خطأ في تحميل المنتجات</p>';
+                console.error('خطأ في تحديث واجهة المتجر:', error);
+            }
+        }
+        
+        // دالة إنشاء عنصر منتج في المتجر
+        function createStoreItemElement(item) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'store-item';
+            itemDiv.dataset.category = item.category;
+            
+            const isPurchased = hasUserPurchased(item.id);
+            const canPurchase = !isPurchased || item.type === 'consumable';
+            const hasEnoughGems = userGems >= item.price;
+            
+            itemDiv.innerHTML = `
+                <div class="store-item-header">
+                    <span class="store-item-icon">${item.icon}</span>
+                    <h4 class="store-item-name">${item.name}</h4>
+                </div>
+                <p class="store-item-description">${item.description}</p>
+                <div class="store-item-footer">
+                    <span class="store-item-price">${item.price} 💎</span>
+                    <button class="store-item-btn ${!canPurchase ? 'purchased' : !hasEnoughGems ? 'insufficient' : ''}" 
+                            onclick="handlePurchase('${item.id}')"
+                            ${!canPurchase || !hasEnoughGems ? 'disabled' : ''}>
+                        ${!canPurchase ? 'مُشترى' : !hasEnoughGems ? 'جواهر غير كافية' : 'شراء'}
+                    </button>
+                </div>
+            `;
+            
+            return itemDiv;
+        }
+        
+        // دالة التعامل مع الشراء
+        async function handlePurchase(itemId) {
+            const success = await purchaseItem(itemId);
+            if (success) {
+                updateStoreUI(); // تحديث واجهة المتجر
+                updateGamificationUI(currentUser); // تحديث لوحة التحكم
+            }
+        }
+    </script>
+</body>
+</html>
+
